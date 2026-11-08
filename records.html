@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기록·비교 · 폭염 안심 알리미</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&family=Titillium+Web:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="p-records">
+
+<nav id="nav">
+  <div class="container">
+    <a class="logo" href="index.html"><i data-i="sun"></i>폭염 안심 알리미</a>
+    <div class="nav-links">
+      <a href="index.html#how">작동 방식</a>
+      <a href="levels.html">위험 단계</a>
+      <a href="records.html">기록·비교</a>
+      <a class="btn btn-dark btn-sm" href="measure.html">측정하기</a>
+    </div>
+  </div>
+</nav>
+
+<section class="sec" id="compare">
+  <div class="rails"></div>
+  <div class="container">
+    <div class="sec-head reveal"><div><div class="label">비교</div><h2>어디가, 언제 <span class="sub">더 위험했을까?</span></h2><p>기록이 쌓일수록 우리 학교 더위 지도가 선명해져요.</p></div></div>
+    <div class="kpis reveal">
+      <div><span>측정 기록</span><b id="sCount">0</b></div>
+      <div><span>가장 더운 장소</span><b class="kr" id="sPlace">–</b></div>
+      <div><span>최고 체감온도</span><b id="sMax">–</b></div>
+    </div>
+    <div class="two reveal">
+      <div class="panel"><h3><i data-i="pin"></i>장소별 평균 체감온도</h3><div id="places"></div></div>
+      <div class="panel"><h3><i data-i="clock"></i>시간대별 평균 체감온도</h3><div id="hours"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-mint" id="log">
+  <div class="rails"></div>
+  <div class="container">
+    <div class="sec-head reveal"><div><div class="label">기록</div><h2>측정 기록</h2><p>최신순으로 정렬돼요. 이 기기에만 저장됩니다.</p></div><button class="ghost" id="clear" type="button"><i data-i="trash"></i>전체 삭제</button></div>
+    <div class="log-list" id="logList"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div><a class="logo" href="index.html"><i data-i="sun"></i>폭염 안심 알리미</a><div>체감온도: 기상청 여름철 체감온도식(습구온도 기반)</div></div>
+    <div>참고 데이터<br><a href="https://data.kma.go.kr" target="_blank" rel="noopener">기상자료개방포털</a> · <a href="https://www.climate.go.kr" target="_blank" rel="noopener">기후정보포털</a></div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>폭염 안심 알리미</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&family=Titillium+Web:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="p-home">
+
+<nav id="nav">
+  <div class="container">
+    <a class="logo" href="index.html"><i data-i="sun"></i>폭염 안심 알리미</a>
+    <div class="nav-links">
+      <a href="index.html#how">작동 방식</a>
+      <a href="levels.html">위험 단계</a>
+      <a href="records.html">기록·비교</a>
+      <a class="btn btn-dark btn-sm" href="measure.html">측정하기</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="rails"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="kicker"><span class="dot"></span>지금 <b id="clock">--:--</b> · 기상청 폭염 영향예보 기준</div>
+        <h1 id="headline">
+          <span class="w">지금</span> <span class="w">밖에서</span> <span class="w">뛰어도</span> <span class="w">괜찮을까?</span>
+          <span class="sub"><span class="w">직접</span> <span class="w">잰</span> <span class="w">온도로</span> <span class="w">바로</span> <span class="w">확인하세요.</span></span>
+        </h1>
+        <div class="ctas">
+          <a class="btn btn-dark" href="measure.html">측정 시작하기 <i data-i="arrow" class="go-wrap"></i></a>
+          <a class="btn btn-line" href="levels.html">위험 단계 보기</a>
+        </div>
+      </div>
+      <div class="orb-wrap" aria-hidden="true">
+        <div class="orb"></div><div class="orb b"></div>
+        <div class="orb-card"><span id="orbLabel">예시 · 운동장 33℃ / 습도 60%</span><b id="orbFeel">33.5℃</b><em id="orbLv">주의</em></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="sources">
+  <div class="container">
+    <div><small>체감온도 계산식</small><b>기상청 여름철 체감온도</b></div>
+    <div><small>위험 단계</small><b>폭염 영향예보 4단계</b></div>
+    <div><small>참고 데이터</small><b>기상자료개방포털</b></div>
+    <div><small>측정 데이터</small><b>학교 장소별 온습도계</b></div>
+  </div>
+</div>
+
+<section class="sec" id="how">
+  <div class="rails"></div>
+  <div class="container">
+    <div class="sec-head reveal"><div><div class="label">작동 방식</div><h2>재고, 계산하고, 판단하기. <span class="sub">세 단계면 끝나요.</span></h2></div></div>
+    <div class="steps reveal">
+      <div class="step"><span class="n">01</span><div class="ic" data-i="thermo"></div><h3>장소에서 직접 재기</h3><p>운동장, 교실, 체육관처럼 실제로 활동하는 곳에서 온습도계로 기온과 습도를 잽니다.</p></div>
+      <div class="step"><span class="n">02</span><div class="ic" data-i="calc"></div><h3>체감온도로 바꾸기</h3><p>기상청 여름철 체감온도식으로 습도까지 반영한 '몸이 느끼는 온도'를 계산합니다.</p><div class="formula">Tw = Stull 습구온도(Ta, RH)<br>체감 = −0.2442 + 0.55399·Tw + 0.45535·Ta − 0.0022·Tw² + 0.00278·Tw·Ta + 3.0</div></div>
+      <div class="step"><span class="n">03</span><div class="ic" data-i="shield"></div><h3>단계별로 행동하기</h3><p>관심·주의·경고·위험 단계에 맞춰 물 마시기, 휴식, 활동 중단을 바로 안내합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta dark">
+  <div class="rails"></div><div class="cta-glow"></div>
+  <div class="container">
+    <h2 class="reveal">더운 날이 일상이 되어도,<br><span class="sub">쉬어야 할 때는 알 수 있게.</span></h2>
+    <div class="ctas reveal" style="margin-top:40px"><a class="btn btn-green" href="measure.html">지금 측정하기 <i data-i="arrow"></i></a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div><a class="logo" href="index.html"><i data-i="sun"></i>폭염 안심 알리미</a><div>체감온도: 기상청 여름철 체감온도식(습구온도 기반)</div></div>
+    <div>참고 데이터<br><a href="https://data.kma.go.kr" target="_blank" rel="noopener">기상자료개방포털</a> · <a href="https://www.climate.go.kr" target="_blank" rel="noopener">기후정보포털</a></div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

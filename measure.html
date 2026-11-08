@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>측정 · 폭염 안심 알리미</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&family=Titillium+Web:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="p-measure">
+
+<nav id="nav">
+  <div class="container">
+    <a class="logo" href="index.html"><i data-i="sun"></i>폭염 안심 알리미</a>
+    <div class="nav-links">
+      <a href="index.html#how">작동 방식</a>
+      <a href="levels.html">위험 단계</a>
+      <a href="records.html">기록·비교</a>
+      <a class="btn btn-dark btn-sm" href="measure.html">측정하기</a>
+    </div>
+  </div>
+</nav>
+
+<section class="measure" id="measure">
+  <div class="rails"></div>
+  <div class="container">
+    <div class="label reveal">측정</div>
+    <h2 class="reveal">숫자 두 개면 충분해요.<br><span class="sub">넣는 순간 결과가 바뀝니다.</span></h2>
+    <div class="app-wrap reveal">
+    <div class="app">
+      <span class="cross tl"></span><span class="cross tr"></span>
+      <div class="pane">
+        <div class="pane-title">측정값</div>
+        <form id="f">
+          <div class="nums">
+            <div class="num-field">
+              <label for="ta">기온</label>
+              <div><input id="ta" type="number" step="0.1" min="-10" max="55" required placeholder="33.0" inputmode="decimal"><em>℃</em></div>
+              <div class="stepper"><button type="button" data-step="-0.5" aria-label="기온 내리기"><i data-i="minus"></i></button><button type="button" data-step="0.5" aria-label="기온 올리기"><i data-i="plus"></i></button></div>
+            </div>
+            <div class="num-field">
+              <label for="rh">습도</label>
+              <div><input id="rh" type="number" step="1" min="1" max="100" required placeholder="60" inputmode="numeric"><em>%</em></div>
+              <div class="stepper"><button type="button" data-step="-5" aria-label="습도 내리기"><i data-i="minus"></i></button><button type="button" data-step="5" aria-label="습도 올리기"><i data-i="plus"></i></button></div>
+            </div>
+          </div>
+          <div class="group"><span>장소</span><div class="seg" id="place"></div></div>
+          <div class="group"><span>활동</span><div class="seg" id="act"></div></div>
+          <div class="group"><span>측정 일시</span><input class="dt" id="dt" type="datetime-local" required></div>
+          <button class="btn btn-dark" type="submit"><i data-i="save"></i>기록 저장</button>
+        </form>
+      </div>
+
+      <div class="pane result" id="result" aria-live="polite">
+        <div class="pane-title">체감온도 <span class="live">실시간 계산</span></div>
+        <div class="big idle" id="big"><b id="feel">--.-</b><small>℃</small></div>
+        <div class="lv-row"><span class="lv-pill" id="lvPill" style="background:var(--soft);color:var(--muted)">대기 중</span><span class="lv-msg" id="lvMsg"></span></div>
+        <div class="gauge">
+          <div class="gauge-bar" id="gaugeBar"></div>
+          <div class="gauge-marker" id="marker" style="left:0;opacity:0"></div>
+          <div class="gauge-scale"><span>26</span><span>31</span><span>33</span><span>35</span><span>38</span><span>42℃</span></div>
+        </div>
+        <div class="facts">
+          <div><span>기온</span><b id="fTa">–</b></div>
+          <div><span>습도</span><b id="fRh">–</b></div>
+          <div><span>기온 대비</span><b id="fDiff">–</b></div>
+        </div>
+        <ul class="tips" id="tips"></ul>
+        <p class="idle-note" id="idle">기온과 습도를 입력하면<br>바로 위험 단계를 알려드려요.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div><a class="logo" href="index.html"><i data-i="sun"></i>폭염 안심 알리미</a><div>체감온도: 기상청 여름철 체감온도식(습구온도 기반)</div></div>
+    <div>참고 데이터<br><a href="https://data.kma.go.kr" target="_blank" rel="noopener">기상자료개방포털</a> · <a href="https://www.climate.go.kr" target="_blank" rel="noopener">기후정보포털</a></div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
