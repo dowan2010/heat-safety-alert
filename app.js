@@ -90,59 +90,71 @@ function setOrb(feel, label) {
 }
 setOrb(feelsLike(33, 60), "예시 · 운동장 33℃ / 습도 60%");
 
-/* ---------- 실시간 계산 ---------- */
-let shown = null;
+/* ---------- 측정 계산 ---------- */
 function readInputs() {
   const Ta = parseFloat($("ta").value), RH = parseFloat($("rh").value);
   if (isNaN(Ta) || isNaN(RH) || RH < 1 || RH > 100) return null;
   return { Ta, RH, feel: Math.round(feelsLike(Ta, RH)*10)/10 };
 }
-function updateLive() {
-  const v = readInputs(), res = $("result");
-  if (!v) {
-    res.removeAttribute("data-lv"); $("big").classList.add("idle"); $("feel").textContent = "--.-";
-    const p = $("lvPill"); p.textContent = "대기 중"; p.style.background = "var(--soft)"; p.style.color = "var(--muted)";
-    $("lvMsg").textContent = ""; $("marker").style.opacity = 0;
-    ["fTa","fRh","fDiff"].forEach(id => $(id).textContent = "–");
-    $("tips").innerHTML = ""; $("idle").style.display = ""; shown = null; return;
-  }
-  const lv = level(v.feel);
-  res.dataset.lv = lv.name; res.style.setProperty("--lv-bg", lv.bg);
-  $("big").classList.remove("idle");
-  tween($("feel"), shown ?? v.feel - 4, v.feel);
-  shown = v.feel;
-  const p = $("lvPill");
-  if (p.textContent !== lv.name) {
-    p.textContent = lv.name; p.style.background = lv.color; p.style.color = lv.fg;
-    if (!REDUCED) p.animate([{ transform:"scale(.6)", opacity:0 }, { transform:"scale(1)", opacity:1 }], { duration:420, easing:SPRING });
-    $("tips").innerHTML = lv.tips.map(t => `<li>${icon("check")}${esc(t)}</li>`).join("");
-    if (!REDUCED) [...$("tips").children].forEach((li,i) => li.animate([{ opacity:0, transform:"translateY(8px)" }, { opacity:1, transform:"none" }], { duration:360, delay:i*70, easing:"ease-out", fill:"backwards" }));
-  }
-  $("lvMsg").textContent = lv.msg;
-  const m = $("marker"); m.style.opacity = 1; m.style.left = clampPct(v.feel) + "%";
+let raf;
+function resetResult() {
+  cancelAnimationFrame(raf);
+  const res = $("result");
+  res.removeAttribute("data-lv"); $("big").classList.add("idle"); $("feel").textContent = "--.-";
+  const p = $("lvPill"); p.textContent = "대기 중"; p.style.background = "var(--soft)"; p.style.color = "var(--muted)";
+  $("lvMsg").textContent = ""; $("marker").style.opacity = 0; $("gaugeBar").style.clipPath = ""; $("gaugeBar").parentElement.style.setProperty("--pct", "100%");
+  ["fTa","fRh","fDiff"].forEach(id => $(id).textContent = "–");
+  $("tips").innerHTML = ""; $("idle").style.display = "";
+  res.querySelectorAll(".bg-wave").forEach(w => w.remove());
+}
+function showResult(v) {
+  resetResult();
+  const res = $("result"), lv = level(v.feel), m = $("marker"), bar = $("gaugeBar");
+  $("big").classList.remove("idle"); $("idle").style.display = "none";
   $("fTa").textContent = v.Ta.toFixed(1) + "℃";
   $("fRh").textContent = v.RH + "%";
   const d = v.feel - v.Ta; $("fDiff").textContent = (d>=0?"+":"") + d.toFixed(1) + "℃";
-  $("idle").style.display = "none";
-  setOrb(v.feel, `입력 중 · ${picked("place")} ${v.Ta}℃ / 습도 ${v.RH}%`);
-}
-let raf;
-function tween(el, from, to) {
-  cancelAnimationFrame(raf);
-  if (REDUCED) { el.textContent = to.toFixed(1); return; }
-  const t0 = performance.now(), dur = 500;
+  setOrb(v.feel, `측정 · ${picked("place")} ${v.Ta}℃ / 습도 ${v.RH}%`);
+  m.style.opacity = 1;
+  // 숫자·온도바: 26℃에서 함께 올라감
+  const draw = t => { const pct = clampPct(t);
+    $("feel").textContent = t.toFixed(1); m.style.left = pct + "%"; bar.style.clipPath = `inset(0 ${100-pct}% 0 0)`; bar.parentElement.style.setProperty("--pct", pct + "%"); };
+  const finish = () => {
+    draw(v.feel);
+    const p = $("lvPill"); p.textContent = lv.name; p.style.background = lv.color; p.style.color = lv.fg;
+    $("lvMsg").textContent = lv.msg;
+    $("tips").innerHTML = lv.tips.map(t => `<li>${icon("check")}${esc(t)}</li>`).join("");
+    res.style.setProperty("--lv-bg", lv.bg);
+    res.dataset.lv = lv.name;
+    if (REDUCED) return;
+    p.animate([{ transform:"scale(.6)", opacity:0 }, { transform:"scale(1)", opacity:1 }], { duration:420, easing:SPRING });
+    [...$("tips").children].forEach((li,i) => li.animate([{ opacity:0, transform:"translateY(8px)" }, { opacity:1, transform:"none" }], { duration:360, delay:i*70, easing:"ease-out", fill:"backwards" }));
+    $("big").animate([{ transform:"scale(1)" }, { transform:"scale(1.06)" }, { transform:"scale(1)" }], { duration:500, easing:SPRING });
+    // 배경: 숫자에서 단계 색 원이 퍼져 남음
+    const r = res.getBoundingClientRect(), b = $("big").getBoundingClientRect();
+    const x = b.left - r.left + b.width/2, y = b.top - r.top + b.height/2, size = r.width * 1.3;
+    const wave = document.createElement("span");
+    wave.className = "bg-wave";
+    wave.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:radial-gradient(circle, color-mix(in srgb, ${lv.color} 55%, transparent) 0%, color-mix(in srgb, ${lv.color} 25%, transparent) 45%, transparent 70%)`;
+    res.prepend(wave);
+    wave.animate([{ transform:"translate(-50%,-50%) scale(0)", opacity:1 }, { transform:"translate(-50%,-50%) scale(1)", opacity:1 }],
+                 { duration:900, easing:"cubic-bezier(.2,.8,.2,1)", fill:"forwards" });
+  };
+  if (REDUCED) return finish();
+  const from = G_MIN, t0 = performance.now(), dur = 1300;
   const step = t => { const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
-    el.textContent = (from + (to-from)*e).toFixed(1); if (p < 1) raf = requestAnimationFrame(step); };
+    draw(from + (v.feel-from)*e); if (p < 1) raf = requestAnimationFrame(step); else finish(); };
   raf = requestAnimationFrame(step);
 }
 if (F) {
-["ta","rh"].forEach(id => $(id).addEventListener("input", updateLive));
+["ta","rh"].forEach(id => $(id).addEventListener("input", resetResult));
+$("measureBtn").addEventListener("click", () => { const v = readInputs(); if (v) showResult(v); else F.reportValidity(); });
 document.querySelectorAll(".num-field").forEach(f => f.addEventListener("click", e => { if (!e.target.closest("button")) f.querySelector("input").focus(); }));
 document.querySelectorAll("[data-step]").forEach(b => b.addEventListener("click", () => {
   const inp = b.closest(".num-field").querySelector("input"), step = parseFloat(b.dataset.step);
   const base = isNaN(parseFloat(inp.value)) ? parseFloat(inp.placeholder) : parseFloat(inp.value);
   inp.value = Math.min(+inp.max, Math.max(+inp.min, +(base + step).toFixed(1)));
-  updateLive();
+  resetResult();
 }));
 
 /* ---------- 저장 ---------- */

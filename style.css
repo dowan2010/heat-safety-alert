@@ -104,7 +104,7 @@ nav.on-dark .btn-dark { background:var(--primary); color:var(--ink)!important; }
 .measure h2, .sec h2 { font-size:clamp(32px,4.2vw,54px); line-height:1.12; letter-spacing:-.045em; }
 .measure h2 .sub, .sec h2 .sub, .strip h2 .sub { color:#9aa3ab; }
 .measure h2 .sub { transition:color .25s, text-shadow .25s; }
-.measure h2 .sub:hover { color:var(--ink); text-shadow:0 0 18px rgba(0,240,160,.55); }
+.measure h2 .sub:hover { color:var(--ink); text-shadow:0 0 12px rgba(0,240,160,.35), 0 0 32px rgba(0,240,160,.25), 0 0 64px rgba(0,240,160,.18); }
 /* 계산기 테두리 글로우 (Framer 스타일) — 오브 색과 연동 */
 @property --a { syntax:"<angle>"; inherits:false; initial-value:0deg; }
 .app-wrap { position:relative; margin-top:48px; }
@@ -142,9 +142,10 @@ nav.on-dark .btn-dark { background:var(--primary); color:var(--ink)!important; }
 .seg input:focus-visible + label { box-shadow:0 0 0 3px rgba(0,240,160,.6); }
 .dt { width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--hairline); font:500 15px var(--body); color:var(--ink); background:var(--canvas); }
 .dt:focus { outline:none; border-color:var(--ink); }
-.pane form .btn-dark { width:100%; margin-top:8px; padding:17px; }
+.form-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+.form-btns .btn { padding:17px; }
 
-.result { position:relative; display:flex; flex-direction:column; transition:background .5s var(--ease); }
+.result { position:relative; overflow:hidden; display:flex; flex-direction:column; transition:background .5s var(--ease); }
 .result[data-lv] { background:var(--lv-bg); }
 .big { display:flex; align-items:flex-start; gap:4px; font-family:var(--num); font-weight:700; line-height:.9; letter-spacing:-.04em; margin:8px 0 4px; }
 .big b { font-size:clamp(96px,11vw,148px); }
@@ -156,7 +157,7 @@ nav.on-dark .btn-dark { background:var(--primary); color:var(--ink)!important; }
 .gauge { margin:28px 0 6px; position:relative; }
 .gauge-bar { display:flex; height:8px; gap:3px; }
 .gauge-bar i { display:block; height:100%; border-radius:4px; opacity:.9; }
-.gauge-marker { position:absolute; width:22px; height:22px; border-radius:50%; background:var(--canvas); border:3px solid var(--ink); transform:translate(-50%,-50%); top:4px; transition:left .6s var(--ease), opacity .3s; }
+.gauge-marker { position:absolute; width:22px; height:22px; border-radius:50%; background:var(--canvas); border:3px solid var(--ink); transform:translate(-50%,-50%); top:4px; transition:opacity .3s; }
 .gauge-scale { display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:10px; font-variant-numeric:tabular-nums; }
 .facts { display:grid; grid-template-columns:repeat(3,1fr); margin:20px 0; border-top:1px solid rgba(0,0,0,.08); }
 .facts div { padding:14px 0 0; }
@@ -290,3 +291,7 @@ footer a { color:var(--on-dark); }
 /* 주황 커서 */
 html, body { cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M3 2l16 9-7 1.5L8.5 20z' fill='%23ff8a1f' stroke='%23fff' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") 3 2, auto; }
 a, button, label, .btn, .ghost, .stepper button, .seg label, [role=button] { cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='9' fill='%23ff8a1f' fill-opacity='.85' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") 14 14, pointer !important; }
+.result > :not(.bg-wave) { position:relative; z-index:1; }
+.bg-wave { position:absolute; z-index:0; border-radius:50%; pointer-events:none; transform:translate(-50%,-50%) scale(0); }
+.gauge::before { content:""; position:absolute; left:var(--pct,100%); right:0; top:0; height:8px; border-radius:4px; background:#e9ecef; }
+.gauge-bar { position:relative; }

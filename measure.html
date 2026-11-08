@@ -50,12 +50,12 @@
           <div class="group"><span>장소</span><div class="seg" id="place"></div></div>
           <div class="group"><span>활동</span><div class="seg" id="act"></div></div>
           <div class="group"><span>측정 일시</span><input class="dt" id="dt" type="datetime-local" required></div>
-          <button class="btn btn-dark" type="submit"><i data-i="save"></i>기록 저장</button>
+          <div class="form-btns"><button class="btn btn-dark" type="button" id="measureBtn"><i data-i="thermo"></i>측정하기</button><button class="btn btn-line" type="submit"><i data-i="save"></i>기록 저장</button></div>
         </form>
       </div>
 
       <div class="pane result" id="result" aria-live="polite">
-        <div class="pane-title">체감온도 <span class="live">실시간 계산</span></div>
+        <div class="pane-title">체감온도 <span class="live">측정하기를 눌러 계산</span></div>
         <div class="big idle" id="big"><b id="feel">--.-</b><small>℃</small></div>
         <div class="lv-row"><span class="lv-pill" id="lvPill" style="background:var(--soft);color:var(--muted)">대기 중</span><span class="lv-msg" id="lvMsg"></span></div>
         <div class="gauge">
@@ -69,7 +69,7 @@
           <div><span>기온 대비</span><b id="fDiff">–</b></div>
         </div>
         <ul class="tips" id="tips"></ul>
-        <p class="idle-note" id="idle">기온과 습도를 입력하면<br>바로 위험 단계를 알려드려요.</p>
+        <p class="idle-note" id="idle">기온과 습도를 입력하면<br>측정하기를 눌러 주세요.</p>
       </div>
     </div>
     </div>
